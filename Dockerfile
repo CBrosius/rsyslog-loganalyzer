@@ -11,9 +11,6 @@ RUN apk --no-cache add php7 php7-fpm php7-opcache php7-mysqli php7-json php7-ope
     php7-mbstring php7-gd nginx supervisor curl rsyslog && \
     rm /etc/nginx/conf.d/default.conf 
 
-# allow non-privileged user 'nobody' to write to /dev/*
-#RUN addgroup nobody tty
-
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
@@ -38,12 +35,6 @@ RUN touch /var/log/syslog
 WORKDIR /var/www/html
 COPY loganalyzer-4.1.11/src /var/www/html/
 COPY config/loganalyzer-config.php /var/www/html/config.php
-
-# Make sure files/folders needed by the processes are accessable when they run under the nobody user
-# RUN chown -R nobody.nobody /var/www/html && \
-#  chown -R nobody.nobody /run && \
-#  chown -R nobody.nobody /var/lib/nginx && \
-#  chown -R nobody.nobody /var/log/nginx
 
 EXPOSE 8080
 EXPOSE 514
